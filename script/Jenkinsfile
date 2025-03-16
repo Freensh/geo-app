@@ -6,6 +6,12 @@ pipeline {
     }
 
     stages{
+        stage("code scan"){
+            steps{
+                sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+                -Dsonar.projectKey=Freensh_geo-app'
+            }
+        }
         stage("maven"){
             steps{
                 sh 'mvn clean validate compile install test package'
@@ -14,7 +20,9 @@ pipeline {
         }
         stage("upload artifactory"){
             steps{
-                sh 'curl -uadmin:AP5h5HxdCvHjy9hdZk27m7gTKo4 -T target/bio*.jar "http://18.117.158.126:8081/artifactory/geolocation/geoapp/bio_${BUILD_ID}.jar"'
+                sh 'curl -uadmin:AP5h5HxdCvHjy9hdZk27m7gTKo4 -T \
+                target/bio*.jar \
+                "http://18.117.158.126:8081/artifactory/geolocation/geoapp/bio_${BUILD_ID}.jar"'
             }
 
         }
