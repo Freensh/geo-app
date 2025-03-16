@@ -12,8 +12,11 @@ pipeline {
             }
             
         }
-        stage("sonar"){
-            
+        stage("upload artifactory"){
+            steps{
+                sh 'curl -uadmin:AP5h5HxdCvHjy9hdZk27m7gTKo4 -T target/bio*.jar "http://18.117.158.126:8081/artifactory/geolocation/geoapp/bio_${BUILD_ID}.jar"'
+            }
+
         }
     }
 }
